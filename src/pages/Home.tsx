@@ -393,7 +393,7 @@ function HomeScrollContent({
               <div aria-hidden className="absolute inset-[-56px] rounded-full bg-[radial-gradient(circle,rgba(52,211,153,0.14),transparent_70%)] blur-[72px]" />
               <div className="relative h-40 w-40 overflow-hidden rounded-full border-4 border-white/10 shadow-[0_0_40px_rgba(52,211,153,0.15)] md:h-52 md:w-52">
                 <img
-                  src={withBasePath("profile.jpg?v=sai-photo-20260627")}
+                  src={withBasePath("profile.jpg?v=sai-formal-photo-20260627")}
                   alt={portfolioData.personal.name}
                   className="h-full w-full object-cover"
                   onError={(e) => {
