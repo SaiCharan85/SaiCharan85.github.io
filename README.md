@@ -1,0 +1,116 @@
+# Sri Sai Charan Yarlagadda 3D Portfolio
+
+Premium React + Vite + Three.js portfolio for Sri Sai Charan Yarlagadda, with profile-specific views for AI/ML engineering and data science.
+
+## Quickstart
+
+Prerequisites: Node.js 20+ and npm.
+
+1. Install dependencies: `npm install`
+2. Start the dev server: `npm run dev`
+3. Open the local URL printed by Vite
+
+Useful commands:
+
+- `npm run dev`: local development server on port `3000`
+- `npm run lint`: TypeScript typecheck
+- `npm run test`: portfolio and rendered scroll geometry checks
+- `npm run build`: production build
+- `npm run build:pages`: production build for GitHub Pages, including static route entry points, `404.html`, and `.nojekyll`
+- `npm run preview`: preview the built app
+
+## GitHub Pages Deployment
+
+This repo is configured for GitHub Pages root user-site hosting at:
+
+- `https://SaiCharan85.github.io/`
+
+Profile-specific entry URLs:
+
+- `https://SaiCharan85.github.io/ai-ml`
+- `https://SaiCharan85.github.io/datascientist`
+
+Production builds use the Vite base path `/`, and the app router uses the same runtime base. Public assets such as the profile image and profile-specific resumes resolve from the root user-site URL.
+
+For GitHub Pages builds, use:
+
+1. `npm run lint`
+2. `npm run test`
+3. `npm run build:pages`
+
+`build:pages` creates `dist/404.html`, `dist/.nojekyll`, and static `index.html` entry points for every profile homepage plus every profile-scoped and legacy project route. That keeps direct GitHub Pages hits like `/ai-ml` and `/datascientist/project/customer-churn-predictive-classification-azure` on a `200` path instead of relying only on the SPA `404` fallback. The Pages workflow only deploys when this source is pushed to `SaiCharan85/SaiCharan85.github.io`.
+
+## Current Stack
+
+- React 19
+- Vite 6
+- TypeScript
+- Tailwind CSS v4
+- React Router 7
+- Framer Motion
+- React Three Fiber + Drei + Postprocessing
+
+## Project Structure
+
+- [`src/pages/Home.tsx`](src/pages/Home.tsx): homepage with `Canvas`, `ScrollControls`, and HTML overlay sections
+- [`src/pages/ProjectDetail.tsx`](src/pages/ProjectDetail.tsx): profile-scoped project detail route
+- [`src/components/3d`](src/components/3d): shared 3D scenes and effects
+- [`src/components`](src/components): shared layout and section components
+- [`src/data/portfolioData.ts`](src/data/portfolioData.ts): profile-aware source of truth for content
+
+## Route Structure
+
+- `/` redirects to `/ai-ml`
+- `/:profileSlug` renders the active profile homepage
+- `/:profileSlug/project/:id` renders the active profile's case-study page
+- `/project/:id` remains as a legacy redirect to `/ai-ml/project/:id` when that project exists
+
+## How The Homepage Works
+
+Each profile homepage is intentionally not a conventional DOM page.
+
+- A fixed full-screen `Canvas` renders the 3D story.
+- Drei `ScrollControls` drive the camera movement.
+- The visible text sections are rendered inside `<Scroll html>`.
+- Total page height is measured to keep `ScrollControls.pages` aligned with the HTML content.
+
+That coupling is the main source of both the experience quality and the repo's layout fragility. Treat homepage spacing work carefully.
+
+## Contributor Operating Docs
+
+Start here for future work:
+
+- Root repo instructions: [`AGENTS.md`](AGENTS.md)
+- Rolling repo update index: [`code_repo_update.md`](code_repo_update.md)
+- Contributor workflow: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- Architecture: [`docs/architecture.md`](docs/architecture.md)
+- Frontend system: [`docs/frontend-system.md`](docs/frontend-system.md)
+- Content model: [`docs/content-model.md`](docs/content-model.md)
+- Debugging runbook: [`docs/debugging-runbook.md`](docs/debugging-runbook.md)
+- Change checklist: [`docs/change-checklist.md`](docs/change-checklist.md)
+
+Repo-specific playbooks:
+
+- [`docs/skills/homepage-layout-fixes.md`](docs/skills/homepage-layout-fixes.md)
+- [`docs/skills/3d-scroll-debugging.md`](docs/skills/3d-scroll-debugging.md)
+- [`docs/skills/content-and-portfolio-data-updates.md`](docs/skills/content-and-portfolio-data-updates.md)
+- [`docs/skills/case-study-page-edits.md`](docs/skills/case-study-page-edits.md)
+- [`docs/skills/release-verification.md`](docs/skills/release-verification.md)
+
+## Verification Expectations
+
+Minimum for any meaningful change:
+
+- `npm run lint`
+- `npm run test`
+- `npm run build`
+
+If the UI changed, also manually verify the affected profile homepages, profile-scoped hash navigation, and any affected project detail pages.
+
+## Notes On Environment And AI Studio Remnants
+
+- `.env.example` still contains AI Studio/Gemini placeholders.
+- `vite.config.ts` still injects `process.env.GEMINI_API_KEY`.
+- The visible portfolio currently does not call Gemini or an Express backend in the UI path.
+
+Those remnants are safe to leave alone unless a task explicitly reintroduces productized AI features.
