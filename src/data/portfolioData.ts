@@ -650,6 +650,87 @@ const fraudDetectionProject: Project = {
   ],
 };
 
+const turbofanPredictiveMaintenanceProject: Project = {
+  id: "predictive-maintenance-turbofan-failure-prediction",
+  title: "Predictive Maintenance - Turbofan Failure Prediction",
+  type: "DS",
+  typeLabel: "Predictive Maintenance",
+  icon: "monitoring",
+  summary:
+    "Sensor-driven failure prediction for NASA C-MAPSS turbofan engines using leakage-safe temporal feature engineering and a benchmarked Gradient Boosting classifier.",
+  role: "Data Scientist",
+  domain: "Industrial IoT / Predictive Maintenance",
+  techStack: ["Gradient Boosting", "RBF SVM", "GroupShuffleSplit", "NASA C-MAPSS", "Permutation Importance", "Calibration Curves"],
+  problem:
+    "Turbofan operators need advance warning of engine failure from sensor streams without leaking future or cross-engine information into training.",
+  context:
+    "Resume-backed project using the NASA C-MAPSS turbofan degradation dataset across 100 engines and 21 sensor channels.",
+  stakes:
+    "Leaking cross-engine or look-ahead information would overstate model performance and undermine trust in failure warnings that maintenance teams act on.",
+  ownership: [
+    "Engineered 90+ temporal features per engine, including rolling means/std, rate-of-change, and drift-from-start, from 21 sensor channels.",
+    "Framed failure prediction as binary classification for failure within 30 cycles and split data by engine ID with GroupShuffleSplit to prevent leakage.",
+    "Benchmarked Gradient Boosting against an RBF SVM and validated the selected model with calibration curves and permutation importance.",
+  ],
+  goals: [
+    "Predict failure within a 30-cycle warning window.",
+    "Prevent cross-engine and look-ahead leakage during feature engineering and validation.",
+    "Select a model that is both accurate and calibrated enough to trust for maintenance decisions.",
+  ],
+  architecture:
+    "Raw sensor channels are aggregated into rolling and drift-based temporal features per engine, engine-grouped splitting isolates train and validation sets, and Gradient Boosting and RBF SVM classifiers are benchmarked and validated with calibration and importance analysis.",
+  implementation: [
+    "Computed rolling means/std, rate-of-change, and drift-from-start features per engine across 21 sensor channels.",
+    "Used GroupShuffleSplit by engine ID for a 70/30 train-validation split to avoid cross-engine leakage.",
+    "Validated the selected Gradient Boosting model with calibration curves and permutation importance analysis.",
+  ],
+  decisions: [
+    {
+      title: "Group by engine, not by row",
+      detail: "Used GroupShuffleSplit on engine ID instead of random row splitting so the validation set never leaked information from the same engine's history.",
+    },
+    {
+      title: "Temporal features over raw readings",
+      detail: "Engineered rolling and drift-based features because raw sensor snapshots underrepresent degradation trends leading up to failure.",
+    },
+    {
+      title: "Benchmark before committing",
+      detail: "Compared Gradient Boosting against an RBF SVM so the final model choice was evidence-based rather than assumed.",
+    },
+  ],
+  flow: "Sensor Channels -> Temporal Feature Engineering -> GroupShuffleSplit by Engine -> Gradient Boosting vs RBF SVM -> Calibration + Importance Validation -> Failure Risk Score",
+  challenges: [
+    "Preventing cross-engine and look-ahead leakage while still capturing degradation trends.",
+    "Balancing precision and recall for a 30-cycle failure warning window.",
+  ],
+  impactMetrics: [
+    {
+      label: "ROC-AUC",
+      value: "0.994",
+      detail: "Gradient Boosting achieved near-ceiling ranking performance on held-out engines.",
+    },
+    {
+      label: "PR-AUC",
+      value: "0.97",
+      detail: "Precision-recall performance stayed strong despite the binary failure-window framing.",
+    },
+    {
+      label: "Recall",
+      value: "90.6%",
+      detail: "The model caught the large majority of true failure-within-30-cycles cases.",
+    },
+  ],
+  outcomes: [
+    "Engineered 90+ temporal features per engine across 21 sensor channels for 100 turbofan engines.",
+    "Selected Gradient Boosting at ROC-AUC 0.994 and 0.97 PR-AUC, with 89.7% precision and 90.6% recall.",
+    "Validated the model with calibration curves and permutation importance rather than a single held-out score.",
+  ],
+  lessons: [
+    "Leakage-safe validation matters more for time-based sensor data than most tabular problems.",
+    "Calibration and feature importance checks build more trust in a maintenance model than accuracy alone.",
+  ],
+};
+
 const customerChurnProject: Project = {
   id: "customer-churn-predictive-classification-azure",
   title: "Customer Churn Predictive Classification",
@@ -660,7 +741,7 @@ const customerChurnProject: Project = {
     "End-to-end churn modeling pipeline with Snowflake extraction, Azure Data Factory orchestration, RFM and cohort features, XGBoost/DNN modeling, and Tableau stakeholder dashboards.",
   role: "Data Scientist",
   domain: "Customer Analytics / Retention Modeling",
-  techStack: ["Snowflake", "Azure Data Factory", "Azure ML Studio", "XGBoost", "DNN", "K-means", "MLflow", "Tableau"],
+  techStack: ["Snowflake", "Azure Data Factory", "Azure ML Studio", "XGBoost", "ANN", "K-means", "MLflow", "Tableau"],
   problem:
     "Retention teams need churn signals that are timely, interpretable, and connected to customer behavior features rather than isolated model outputs.",
   context:
@@ -712,7 +793,7 @@ const customerChurnProject: Project = {
     },
     {
       label: "AUC",
-      value: "0.86",
+      value: "0.89",
       detail: "Predictive models produced strong churn ranking performance.",
     },
     {
@@ -723,7 +804,7 @@ const customerChurnProject: Project = {
   ],
   outcomes: [
     "Engineered eight or more RFM and cohort features with 92% data quality.",
-    "Achieved AUC 0.86 and 83% precision with XGBoost and DNN modeling.",
+    "Achieved AUC 0.89 and 83% precision with an ANN and XGBoost ensemble.",
     "Built Tableau dashboards with 15+ interactive visualizations for churn drivers and segment profiles.",
   ],
   lessons: [
@@ -739,10 +820,10 @@ const walmartForecastingProject: Project = {
   typeLabel: "Time Series Forecasting",
   icon: "pipeline",
   summary:
-    "Retail forecasting project comparing ARIMA, SARIMAX, Bi-LSTM, and foundation models with stationarity testing, seasonal decomposition, and uncertainty simulation.",
+    "Retail forecasting project comparing ARIMA, SARIMAX, Exponential Smoothing, XGBoost, Random Forest, and TimesFM with stationarity testing and seasonal decomposition.",
   role: "Data Scientist",
   domain: "Retail Forecasting / Inventory Planning",
-  techStack: ["ARIMA", "SARIMAX", "Bi-LSTM", "Chronos", "TimesFM", "ADF Test", "STL", "Monte Carlo", "Matplotlib", "Seaborn"],
+  techStack: ["ARIMA", "SARIMAX", "Exponential Smoothing", "XGBoost", "Random Forest", "TimesFM", "ADF Test", "STL", "Matplotlib", "Seaborn"],
   problem:
     "Retail planners need forecasts that account for seasonality, uncertainty, and model cost across many stores and product histories.",
   context:
@@ -763,8 +844,8 @@ const walmartForecastingProject: Project = {
     "Cleaned store-level sales histories pass through stationarity and decomposition analysis, multiple forecasting families are benchmarked through expanding-window validation, and Monte Carlo simulation produces uncertainty views for planning.",
   implementation: [
     "Ran Augmented Dickey-Fuller stationarity tests and STL seasonal decomposition before model fitting.",
-    "Compared ARIMA, SARIMAX, Bi-LSTM, Chronos, and TimesFM for accuracy, data needs, and inference cost.",
-    "Produced forecast distribution, seasonal pattern, and prediction interval visualizations.",
+    "Compared ARIMA, SARIMAX, Exponential Smoothing, XGBoost, Random Forest, and TimesFM via 5-fold expanding-window cross-validation on RMSE/MAE.",
+    "Produced eight or more trend and seasonality visualizations for demand planning.",
   ],
   decisions: [
     {
@@ -773,17 +854,17 @@ const walmartForecastingProject: Project = {
     },
     {
       title: "Benchmark families",
-      detail: "Compared classical, neural, and foundation-model approaches so the result considered practical tradeoffs.",
+      detail: "Compared classical statistical, tree-based, and zero-shot foundation-model approaches so the result considered practical tradeoffs.",
     },
     {
-      title: "Show uncertainty",
-      detail: "Used Monte Carlo simulation and prediction intervals because point forecasts alone are weak for inventory planning.",
+      title: "Let nonlinear signal win",
+      detail: "Selected XGBoost over the statistical baselines and TimesFM's un-tuned zero-shot output because it captured nonlinear holiday and promo interactions the others missed.",
     },
   ],
-  flow: "Retail Sales Records -> Cleaning -> ADF + STL Diagnostics -> ARIMA / SARIMAX / Bi-LSTM / Foundation Models -> Cross-Validation -> Forecast Intervals",
+  flow: "Retail Sales Records -> Cleaning -> ADF + STL Diagnostics -> ARIMA / SARIMAX / Exponential Smoothing / XGBoost / Random Forest / TimesFM -> Expanding-Window Cross-Validation -> Forecast",
   challenges: [
     "Separating trend and seasonality across many stores.",
-    "Comparing model families with different data and inference requirements.",
+    "Comparing statistical, tree-based, and foundation-model families with different data and inference requirements.",
   ],
   impactMetrics: [
     {
@@ -797,15 +878,15 @@ const walmartForecastingProject: Project = {
       detail: "Forecasting workflows were evaluated across multi-store retail data.",
     },
     {
-      label: "RMSE",
-      value: "-11%",
-      detail: "The best benchmark reduced RMSE compared with the baseline.",
+      label: "Forecast Accuracy",
+      value: "91%",
+      detail: "XGBoost was selected as the best-performing model, beating the statistical baselines and TimesFM's zero-shot output.",
     },
   ],
   outcomes: [
     "Validated trend, seasonality, and residual components before forecasting.",
-    "Compared ARIMA, SARIMAX, Bi-LSTM, Chronos, and TimesFM under expanding-window validation.",
-    "Produced eight or more visualizations for forecast distributions and seasonal behavior.",
+    "Evaluated ARIMA, SARIMAX, Exponential Smoothing, XGBoost, Random Forest, and TimesFM under 5-fold expanding-window cross-validation.",
+    "Selected XGBoost at 91% forecast accuracy, capturing nonlinear holiday/promo interactions the statistical baselines missed.",
   ],
   lessons: [
     "Forecasting decisions need to account for model cost and data requirements as well as error.",
@@ -930,7 +1011,13 @@ const dataScientistProfile = createBaseProfile({
     { label: "Forecast Data", value: "420K+" },
   ],
   skills: dataScienceSkills,
-  projects: [pneumoniaDetectionProject, fraudDetectionProject, customerChurnProject, walmartForecastingProject],
+  projects: [
+    pneumoniaDetectionProject,
+    fraudDetectionProject,
+    turbofanPredictiveMaintenanceProject,
+    customerChurnProject,
+    walmartForecastingProject,
+  ],
   resume: "Resume_Data_Scientist.pdf",
   sectionCopy: {
     about: {
