@@ -179,30 +179,59 @@ const sharedCertifications = [
   },
 ];
 
-const sharedExperience: Experience[] = [
+const sharedExperienceDescriptions: {
+  crewasis: string[];
+  crewasisSkills: string[];
+  brainerHub: string[];
+  brainerHubSkills: string[];
+} = {
+  crewasis: [
+    "Designed and built an AI research pipeline ingesting 400+ research papers via SerpAPI, Google Docs, and PDFs into an S3 knowledge base, generating vector embeddings and training a Decision Tree classifier to route passages.",
+    "Architected a 3-stage LLM pipeline using Llama 3.3 70B and Claude 3.7 Sonnet for chunking and synthesis, extracting 30 structured attributes across 12,000 question-paper analyses for research review.",
+    "Selected QLoRA and LangChain to fine-tune Llama 3.3 70B for domain summarization after evaluating alternatives, improving domain accuracy 20% and reaching 91.7% extraction accuracy.",
+    "Led deployment of the platform on AWS S3, Lambda, EC2, and Bedrock at 15K+ API calls per run, cutting hallucinations 28% with BERTScore and NLI checks, and delivering insight reports.",
+  ],
+  crewasisSkills: ["SerpAPI", "AWS Lambda", "Llama 3.3 70B", "QLoRA", "LangChain", "AWS Bedrock"],
+  brainerHub: [
+    "Designed a chat-based NLP bot using a Bi-LSTM intent classifier and GPT-3.5 Turbo for a stock-focused client, powering subscriptions, recommendations, and insights at 85% F1.",
+    "Developed an XGBoost lead-scoring model for a sales client, prioritizing leads by conversion likelihood at 82% precision.",
+    "Delivered an ARIMA stock-price prediction model with engineered lag features and a collaborative-filtering recommender for an e-commerce client, averaging 15% KPI uplift.",
+    "Deployed all models on AWS EC2 and GCP Cloud Run, auto-scaling instances and tracking experiments in MLflow, delivering Power BI KPI dashboards at scale across all 3 client workflows.",
+  ],
+  brainerHubSkills: ["Bi-LSTM", "GPT-3.5 Turbo", "XGBoost", "ARIMA", "GCP Cloud Run", "MLflow"],
+};
+
+const aiMlExperience: Experience[] = [
+  {
+    company: "Crewasis.ai",
+    role: "AI / ML Engineer",
+    period: "Jul 2025 - Jan 2026",
+    description: sharedExperienceDescriptions.crewasis,
+    skills: sharedExperienceDescriptions.crewasisSkills,
+  },
+  {
+    company: "BrainerHub Solutions LLP",
+    role: "AI / ML Intern",
+    period: "Jul 2023 - Dec 2023",
+    description: sharedExperienceDescriptions.brainerHub,
+    skills: sharedExperienceDescriptions.brainerHubSkills,
+  },
+];
+
+const dataScienceExperience: Experience[] = [
   {
     company: "Crewasis.ai",
     role: "ML Engineer / Data Scientist",
     period: "Jul 2025 - Jan 2026",
-    description: [
-      "Built Lambda-triggered pipelines ingesting medical research literature via SerpAPI (Google Scholar), Google Docs, and PDFs into an S3 knowledge base, generating vector embeddings and training a Decision Tree classifier over embedding similarity to rank and filter relevant passages before LLM analysis.",
-      "Engineered a 3-stage LLM research-review pipeline: chunked large papers (>50K words) for Llama 3.3 70B summarization, ran schema-constrained extraction of 30 structured attributes across 400 papers (12,000 question-paper analyses), and synthesized cross-paper findings with Claude 3.7 Sonnet via AWS Bedrock.",
-      "Fine-tuned Llama 3.3 70B with QLoRA (4-bit NF4) and designed LangChain RAG workflows (ConversationalRetrievalChain, OutputFixingParser) with prompt engineering, improving domain accuracy 20% and reaching 91.7% extraction accuracy across 2,000+ documents.",
-      "Orchestrated the full pipeline on AWS (S3, Lambda, EC2, Bedrock, CloudWatch) at 15K+ API calls per run, adding BERTScore/NLI hallucination checks that cut hallucinations 28%.",
-    ],
-    skills: ["SerpAPI", "AWS Lambda", "Llama 3.3 70B", "QLoRA", "LangChain", "AWS Bedrock", "CloudWatch"],
+    description: sharedExperienceDescriptions.crewasis,
+    skills: sharedExperienceDescriptions.crewasisSkills,
   },
   {
     company: "BrainerHub Solutions LLP",
     role: "Data Science / ML Intern",
     period: "Jul 2023 - Dec 2023",
-    description: [
-      "Engineered NLP preprocessing pipelines with spaCy and NLTK over 50K+ enterprise text records and trained a PyTorch Bi-LSTM intent classifier, chosen for its bidirectional context capture on short user utterances, reaching 85% F1 and lifting downstream model input quality 15%.",
-      "Routed classified intents through matched prompt templates to GPT-3.5 Turbo via the OpenAI API to generate client reports and proofread text across 3 client workflows.",
-      "Delivered 3 production predictive-analytics solutions: an ARIMA + LSTM stock forecasting engine, an XGBoost lead-scoring model (82% precision), and a collaborative-filtering recommender on 50K+ interactions, achieving 15% average KPI uplift.",
-      "Deployed pipelines on AWS EC2 (Docker) and GCP Cloud Run with auto-scaling to hold P95 latency under 200ms, using MLflow tracking and Power BI KPI dashboards.",
-    ],
-    skills: ["spaCy", "NLTK", "PyTorch", "OpenAI API", "XGBoost", "GCP Cloud Run", "MLflow"],
+    description: sharedExperienceDescriptions.brainerHub,
+    skills: sharedExperienceDescriptions.brainerHubSkills,
   },
 ];
 
@@ -251,78 +280,79 @@ const innovateAiProject: Project = {
   typeLabel: "RAG and Agentic AI",
   icon: "translation",
   summary:
-    "Production-ready retrieval-augmented generation system for academic literature review, combining hybrid retrieval, reranking, Gemini generation, and cloud-orchestrated embedding refresh.",
+    "Production RAG pipeline for tracking AI and tech-trend research: a validated, bias-checked ingestion pipeline feeds hybrid retrieval and reranked Gemini generation, deployed on GKE with CI/CD-gated releases and an MCP server for LLM-client tool use.",
   role: "AI / ML Engineer",
   domain: "Academic Search / Research Intelligence",
-  techStack: ["LangChain", "FAISS", "BM25", "RRF", "Gemini 2.0 Flash", "Airflow", "GCP Cloud Composer", "Docker", "GKE", "MLflow", "DVC"],
+  techStack: ["LangChain", "FAISS", "BM25", "RRF", "Gemini 2.0 Flash", "Airflow", "Great Expectations", "Fairlearn", "DVC", "Terraform", "GKE"],
   problem:
-    "Research users needed reliable answers over large academic corpora without losing source grounding, retrieval quality, or interactive latency.",
+    "Tracking AI and tech research trends needed a pipeline that ingested arXiv and news sources reliably, retrieved evidence accurately, and stayed fast enough for repeated interactive use.",
   context:
-    "Resume-backed project and public GitHub repository describing a RAG pipeline for answering questions over research papers and news articles.",
+    "Resume-backed project and public GitHub repository (InnovateAI) describing a RAG pipeline for tracking AI and tech trends across research papers and news.",
   stakes:
-    "Weak retrieval would produce unsupported answers, while slow response times would make multi-step research workflows impractical for repeated use.",
+    "Unvalidated ingestion or ungated releases could let corrupted data or unfair, low-quality responses reach users, so both the data pipeline and the deployment path needed explicit gates.",
   ownership: [
-    "Architected hybrid dense and sparse retrieval using FAISS, BM25, and reciprocal rank fusion.",
-    "Implemented cross-encoder reranking before generation to improve answer relevance.",
-    "Integrated Gemini 2.0 Flash with specialized agent tools for multi-step reasoning and context-aware generation.",
-    "Orchestrated ingestion and embedding refresh with Airflow DAGs on GCP Cloud Composer.",
+    "Built an Airflow-orchestrated (Cloud Composer) ingestion pipeline for arXiv papers and tech news with Great Expectations validation, deduplication, schema enforcement, and Fairlearn bias checks, versioned via DVC on GCS.",
+    "Assembled a hybrid retrieval RAG pipeline (FAISS dense + BM25 sparse via reciprocal rank fusion) with ms-marco-MiniLM-L6 cross-encoder reranking and Gemini 2.0 Flash generation.",
+    "Added citation extraction, a 7-check response validator, and MLflow tracking around every generated answer.",
+    "Deployed FastAPI and Streamlit on GKE via GitHub Actions CI/CD and Terraform, gating releases on quality and fairness thresholds with drift-triggered auto-retraining, and shipped an MCP server exposing the pipeline as an LLM-callable tool.",
   ],
   goals: [
-    "Improve retrieval quality over 1,200+ academic documents.",
-    "Keep generated answers grounded in retrieved evidence.",
-    "Reduce P95 query latency while preserving multi-step reasoning quality.",
+    "Keep ingested research and news data validated, deduplicated, and bias-checked before it reaches retrieval.",
+    "Ground generated answers in retrieved evidence with citations and automated response validation.",
+    "Ship releases only when they clear quality and fairness gates, with the pipeline callable directly by other LLM clients.",
   ],
   architecture:
-    "Document ingestion feeds chunking and embeddings into FAISS, sparse terms into BM25, reciprocal rank fusion merges candidates, a cross-encoder reranks passages, Gemini agent tools generate grounded responses, and Airflow refreshes the index on schedule.",
+    "Airflow DAGs on Cloud Composer ingest arXiv and news sources through Great Expectations validation, deduplication, schema enforcement, and Fairlearn bias checks before DVC-versioned storage on GCS; FAISS and BM25 retrieval results are fused with RRF, reranked by a cross-encoder, and passed to Gemini 2.0 Flash for citation-backed generation behind a 7-check response validator; FastAPI and Streamlit run on GKE behind CI/CD-gated releases, with an MCP server exposing the same pipeline as a tool for other LLM clients.",
   implementation: [
-    "Built LangChain RetrievalQA chains with FAISS vector search and BM25 sparse retrieval fused through RRF.",
-    "Added ms-marco-MiniLM-L6 cross-encoder reranking to refine candidates before generation.",
-    "Containerized the model endpoint for GKE deployment and tracked retrieval plus latency metrics through MLflow and DVC.",
+    "Validated and deduplicated ingested arXiv and tech-news documents with Great Expectations and Fairlearn bias checks, versioning outputs with DVC on GCS.",
+    "Fused FAISS dense and BM25 sparse retrieval through reciprocal rank fusion and reranked candidates with an ms-marco-MiniLM-L6 cross-encoder before Gemini 2.0 Flash generation.",
+    "Wired citation extraction and a 7-check response validator into the generation path, with MLflow tracking retrieval and latency metrics.",
+    "Deployed FastAPI and Streamlit to GKE through GitHub Actions CI/CD and Terraform, gating releases on quality/fairness thresholds with drift-triggered auto-retraining.",
   ],
   decisions: [
     {
-      title: "Hybrid retrieval first",
-      detail: "Combined dense semantic matching with sparse lexical matching so technical queries could benefit from both meaning and exact terminology.",
+      title: "Validate before retrieval",
+      detail: "Ran Great Expectations, deduplication, schema enforcement, and Fairlearn bias checks on ingested data so retrieval never worked over corrupted or unfairly skewed sources.",
     },
     {
-      title: "Rerank before generation",
-      detail: "Used a cross-encoder to improve the evidence set before calling the LLM, reducing the chance of fluent but weakly grounded answers.",
+      title: "Hybrid retrieval, then rerank",
+      detail: "Combined FAISS dense and BM25 sparse retrieval through RRF and added cross-encoder reranking so generation started from a stronger, more relevant evidence set.",
     },
     {
-      title: "Refresh as a pipeline",
-      detail: "Managed ingestion and embedding refresh with Airflow so corpus updates were repeatable instead of manually rebuilt.",
+      title: "Gate releases, don't just ship",
+      detail: "Used GitHub Actions CI/CD and Terraform to gate releases on quality and fairness thresholds with drift-triggered auto-retraining, rather than deploying on merge alone.",
     },
   ],
-  flow: "Documents -> Chunking -> FAISS + BM25 Retrieval -> RRF Fusion -> Cross-Encoder Reranking -> Gemini Agent Tools -> Grounded Answer",
+  flow: "arXiv + Tech News -> Airflow Ingestion (Great Expectations, Dedup, Fairlearn) -> DVC on GCS -> FAISS + BM25 Retrieval -> RRF Fusion -> Cross-Encoder Reranking -> Gemini 2.0 Flash + Citations -> 7-Check Validator -> FastAPI/Streamlit on GKE",
   challenges: [
-    "Balancing retrieval depth, reranking cost, and response latency.",
-    "Keeping academic evidence traceable while supporting multi-step generated answers.",
+    "Keeping ingestion validated and bias-checked without slowing down the pipeline's refresh cadence.",
+    "Gating releases on quality and fairness thresholds while still supporting drift-triggered auto-retraining.",
   ],
   impactMetrics: [
     {
-      label: "MRR@10",
-      value: "0.87",
-      detail: "Hybrid retrieval achieved strong ranking quality across the academic document set.",
-    },
-    {
-      label: "Top-5 Recall",
-      value: "91.7%",
-      detail: "Relevant evidence appeared in the top retrieved passages for most evaluation queries.",
-    },
-    {
       label: "P95 Latency",
       value: "-58%",
-      detail: "Query latency dropped from 6.7s to 2.8s after optimization.",
+      detail: "Query latency dropped from 6.7s to 2.8s after hybrid retrieval and reranking optimization.",
+    },
+    {
+      label: "Response Validator",
+      value: "7 Checks",
+      detail: "Citation extraction plus a 7-check response validator gate every generated answer before it ships.",
+    },
+    {
+      label: "Release Gate",
+      value: "Quality + Fairness",
+      detail: "GitHub Actions releases are gated on quality and Fairlearn fairness thresholds, with drift-triggered auto-retraining.",
     },
   ],
   outcomes: [
-    "Achieved 0.87 MRR@10 and 91.7% Top-5 Recall on 1,200+ academic documents.",
-    "Improved answer relevance by 14% on a 300-query human-annotated test set.",
-    "Reduced P95 query latency from 6.7s to 2.8s with optimized agent and retrieval flow.",
+    "Built a validated ingestion pipeline (Great Expectations, deduplication, schema enforcement, Fairlearn bias checks) for arXiv papers and tech news, versioned with DVC on GCS.",
+    "Cut P95 query latency 58% (6.7s to 2.8s) with hybrid FAISS/BM25 retrieval, RRF fusion, and cross-encoder reranking ahead of Gemini 2.0 Flash generation.",
+    "Deployed FastAPI and Streamlit on GKE via GitHub Actions CI/CD and Terraform, and shipped an MCP server exposing the pipeline as a callable tool for any LLM client.",
   ],
   lessons: [
-    "RAG quality depends more on evidence selection than prompt polish alone.",
-    "Latency budgets need to be designed around retrieval, reranking, and generation together.",
+    "Data validation and bias checks belong before retrieval, not as an afterthought on model outputs.",
+    "Exposing a RAG pipeline through an MCP server makes it reusable by other LLM clients instead of being a one-off endpoint.",
   ],
 };
 
@@ -902,6 +932,7 @@ function createBaseProfile({
   metrics,
   skills,
   projects,
+  experience,
   resume,
   sectionCopy,
   footerTagline,
@@ -912,6 +943,7 @@ function createBaseProfile({
   metrics: PortfolioData["metrics"];
   skills: SkillGroup[];
   projects: Project[];
+  experience: Experience[];
   resume: string;
   sectionCopy: PortfolioData["sectionCopy"];
   footerTagline: string;
@@ -927,7 +959,7 @@ function createBaseProfile({
     metrics,
     skills,
     projects,
-    experience: sharedExperience,
+    experience,
     education: sharedEducation,
     certifications: sharedCertifications,
     sectionCopy,
@@ -953,6 +985,7 @@ const aiMlProfile = createBaseProfile({
   ],
   skills: aiMlSkills,
   projects: [innovateAiProject, theraBotProject, multiMedAiProject],
+  experience: aiMlExperience,
   resume: "Resume_AI_ML.pdf",
   sectionCopy: {
     about: {
@@ -1019,6 +1052,7 @@ const dataScientistProfile = createBaseProfile({
     customerChurnProject,
     walmartForecastingProject,
   ],
+  experience: dataScienceExperience,
   resume: "Resume_Data_Scientist.pdf",
   sectionCopy: {
     about: {
