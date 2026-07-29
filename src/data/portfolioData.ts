@@ -182,26 +182,27 @@ const sharedCertifications = [
 const sharedExperience: Experience[] = [
   {
     company: "Crewasis.ai",
-    role: "AI / ML Engineer",
-    period: "Aug 2025 - Dec 2025",
+    role: "ML Engineer / Data Scientist",
+    period: "Jul 2025 - Jan 2026",
     description: [
-      "Extracted 10K+ Google Scholar publication records through SerpAPI and ingested them into S3 alongside 15+ domain-specific corpora with Lambda-triggered preprocessing.",
-      "Fine-tuned Claude Sonnet 3.7 with QLoRA adapters through AWS Bedrock and deployed Llama 3.3 70B on EC2 G5 with vLLM for batch summarization.",
-      "Built LangChain document workflows using conversational retrieval and structured output parsing, reaching 91.7% extraction accuracy across 2,000+ monthly documents.",
-      "Orchestrated AWS S3, Lambda, EC2, Bedrock, and CloudWatch components, improving reliability by 35% and reducing end-to-end latency by 45%.",
+      "Built Lambda-triggered pipelines ingesting medical research literature via SerpAPI (Google Scholar), Google Docs, and PDFs into an S3 knowledge base, generating vector embeddings and training a Decision Tree classifier over embedding similarity to rank and filter relevant passages before LLM analysis.",
+      "Engineered a 3-stage LLM research-review pipeline: chunked large papers (>50K words) for Llama 3.3 70B summarization, ran schema-constrained extraction of 30 structured attributes across 400 papers (12,000 question-paper analyses), and synthesized cross-paper findings with Claude 3.7 Sonnet via AWS Bedrock.",
+      "Fine-tuned Llama 3.3 70B with QLoRA (4-bit NF4) and designed LangChain RAG workflows (ConversationalRetrievalChain, OutputFixingParser) with prompt engineering, improving domain accuracy 20% and reaching 91.7% extraction accuracy across 2,000+ documents.",
+      "Orchestrated the full pipeline on AWS (S3, Lambda, EC2, Bedrock, CloudWatch) at 15K+ API calls per run, adding BERTScore/NLI hallucination checks that cut hallucinations 28%.",
     ],
-    skills: ["RAG", "LangChain", "AWS Bedrock", "vLLM", "QLoRA", "CloudWatch"],
+    skills: ["SerpAPI", "AWS Lambda", "Llama 3.3 70B", "QLoRA", "LangChain", "AWS Bedrock", "CloudWatch"],
   },
   {
     company: "BrainerHub Solutions LLP",
-    role: "AI / ML Intern",
-    period: "Jul 2023 - Nov 2023",
+    role: "Data Science / ML Intern",
+    period: "Jul 2023 - Dec 2023",
     description: [
-      "Developed a Bi-LSTM intent classification model in PyTorch over 10K+ labeled text samples with GloVe embeddings and attention-based pooling.",
-      "Wrapped GPT-3.5 Turbo through the OpenAI API for enterprise document proofreading and structured response generation, reducing manual review time by 25%.",
-      "Deployed chatbot and ML application modules with Docker on AWS EC2 and GCP Cloud Run while tracking model performance and prompts with MLflow.",
+      "Engineered NLP preprocessing pipelines with spaCy and NLTK over 50K+ enterprise text records and trained a PyTorch Bi-LSTM intent classifier, chosen for its bidirectional context capture on short user utterances, reaching 85% F1 and lifting downstream model input quality 15%.",
+      "Routed classified intents through matched prompt templates to GPT-3.5 Turbo via the OpenAI API to generate client reports and proofread text across 3 client workflows.",
+      "Delivered 3 production predictive-analytics solutions: an ARIMA + LSTM stock forecasting engine, an XGBoost lead-scoring model (82% precision), and a collaborative-filtering recommender on 50K+ interactions, achieving 15% average KPI uplift.",
+      "Deployed pipelines on AWS EC2 (Docker) and GCP Cloud Run with auto-scaling to hold P95 latency under 200ms, using MLflow tracking and Power BI KPI dashboards.",
     ],
-    skills: ["PyTorch", "OpenAI API", "Docker", "GCP Cloud Run", "MLflow"],
+    skills: ["spaCy", "NLTK", "PyTorch", "OpenAI API", "XGBoost", "GCP Cloud Run", "MLflow"],
   },
 ];
 
