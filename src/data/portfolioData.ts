@@ -194,11 +194,11 @@ const sharedExperienceDescriptions: {
   crewasisSkills: ["SerpAPI", "AWS Lambda", "Llama 3.3 70B", "QLoRA", "LangChain", "AWS Bedrock"],
   brainerHub: [
     "Designed a chat-based NLP bot using a Bi-LSTM intent classifier and GPT-3.5 Turbo for a stock-focused client, powering subscriptions, recommendations, and insights at 85% F1.",
-    "Developed an XGBoost lead-scoring model for a sales client, prioritizing leads by conversion likelihood at 82% precision.",
+    "Developed a Random Forest lead-scoring model for a sales client, prioritizing leads by conversion likelihood at 82% precision.",
     "Delivered an ARIMA stock-price prediction model with engineered lag features and a collaborative-filtering recommender for an e-commerce client, averaging 15% KPI uplift.",
     "Deployed all models on AWS EC2 and GCP Cloud Run, auto-scaling instances and tracking experiments in MLflow, delivering Power BI KPI dashboards at scale across all 3 client workflows.",
   ],
-  brainerHubSkills: ["Bi-LSTM", "GPT-3.5 Turbo", "XGBoost", "ARIMA", "GCP Cloud Run", "MLflow"],
+  brainerHubSkills: ["Bi-LSTM", "GPT-3.5 Turbo", "Random Forest", "ARIMA", "GCP Cloud Run", "MLflow"],
 };
 
 const aiMlExperience: Experience[] = [
